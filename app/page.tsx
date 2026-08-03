@@ -71,7 +71,7 @@ const technicalLabs = [
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-[#f8f7f4] text-[#172033]">
+    <main className="min-h-screen whabg-[#f8f7f4] text-[#172033]">
       {/* Navigation */}
       <nav className="sticky top-0 z-50 border-b border-black/10 bg-[#f8f7f4]/95 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
