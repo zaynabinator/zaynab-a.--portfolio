@@ -71,39 +71,42 @@ const technicalLabs = [
 
 export default function Home() {
   return (
-    <main className="min-h-screen whabg-[#f8f7f4] text-[#172033]">
+    <main className="min-h-screen bg-[#f5f0e6] text-[#263129]">
       {/* Navigation */}
-      <nav className="sticky top-0 z-50 border-b border-black/10 bg-[#f8f7f4]/95 backdrop-blur">
+      <nav className="sticky top-0 z-50 border-b border-[#cbd3c5] bg-[#f5f0e6]/95 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
-          <a href="#home" className="text-lg font-semibold">
+          <a
+            href="#home"
+            className="display-font text-3xl font-semibold italic text-[#2f4235]"
+          >
             ZA
           </a>
 
-          <div className="hidden gap-7 text-sm text-[#5f6673] md:flex">
-            <a href="#about" className="hover:text-[#172033]">
+          <div className="hidden gap-7 text-xs uppercase tracking-[0.12em] text-[#687269] md:flex">
+            <a href="#about" className="transition hover:text-[#2f4235]">
               About
             </a>
 
-            <a href="#projects" className="hover:text-[#172033]">
+            <a href="#projects" className="transition hover:text-[#2f4235]">
               Projects
             </a>
 
-            <a href="#labs" className="hover:text-[#172033]">
+            <a href="#labs" className="transition hover:text-[#2f4235]">
               Technical Experience
             </a>
 
-            <a href="#skills" className="hover:text-[#172033]">
+            <a href="#skills" className="transition hover:text-[#2f4235]">
               Skills
             </a>
 
-            <a href="#contact" className="hover:text-[#172033]">
+            <a href="#contact" className="transition hover:text-[#2f4235]">
               Contact
             </a>
           </div>
 
           <a
             href="#contact"
-            className="rounded-full bg-[#172033] px-5 py-2.5 text-sm font-medium text-white"
+            className="rounded-full bg-[#4f6253] px-5 py-2.5 text-sm font-medium text-[#fbf8f1] transition duration-300 hover:bg-[#2f4235]"
           >
             Contact
           </a>
@@ -116,15 +119,15 @@ export default function Home() {
         className="mx-auto flex min-h-[82vh] max-w-6xl items-center px-6 py-20"
       >
         <div className="max-w-4xl">
-          <p className="mb-6 text-sm font-semibold uppercase tracking-[0.2em] text-[#536d8c]">
+          <p className="mb-6 text-xs font-semibold uppercase tracking-[0.22em] text-[#4f6253]">
             Cybersecurity Engineering Student
           </p>
 
-          <h1 className="text-5xl font-semibold leading-[1.08] tracking-tight md:text-7xl">
+          <h1 className="display-font max-w-4xl text-6xl font-semibold italic leading-[0.95] tracking-tight text-[#2f4235] md:text-8xl">
             Building thoughtful, practical security solutions.
           </h1>
 
-          <p className="mt-7 max-w-2xl text-lg leading-8 text-[#5f6673]">
+          <p className="mt-7 max-w-2xl text-lg leading-8 text-[#687269]">
             I&apos;m Zaynab Abdulquddos, a Cybersecurity Engineering student at
             George Mason University interested in network defense,
             vulnerability analysis, technical leadership, and public-service
@@ -134,14 +137,14 @@ export default function Home() {
           <div className="mt-10 flex flex-wrap gap-4">
             <a
               href="#projects"
-              className="rounded-full bg-[#172033] px-6 py-3 text-sm font-medium text-white transition hover:-translate-y-0.5"
+              className="rounded-full bg-[#4f6253] px-6 py-3 text-sm font-medium text-[#fbf8f1] transition duration-300 hover:-translate-y-0.5 hover:bg-[#2f4235]"
             >
               View my work
             </a>
 
             <a
               href="#labs"
-              className="rounded-full border border-[#172033] px-6 py-3 text-sm font-medium transition hover:bg-[#172033] hover:text-white"
+              className="rounded-full border border-[#4f6253] px-6 py-3 text-sm font-medium text-[#4f6253] transition duration-300 hover:bg-[#4f6253] hover:text-[#fbf8f1]"
             >
               View technical demos
             </a>
@@ -150,19 +153,22 @@ export default function Home() {
       </section>
 
       {/* About */}
-      <section id="about" className="border-t border-black/10 bg-white">
+      <section
+        id="about"
+        className="border-t border-[#cbd3c5] bg-[#fbf8f1]"
+      >
         <div className="mx-auto grid max-w-6xl gap-10 px-6 py-24 md:grid-cols-[1fr_2fr]">
           <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#536d8c]">
-              About
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#4f6253]">
+              // About
             </p>
 
-            <h2 className="mt-3 text-3xl font-semibold tracking-tight">
+            <h2 className="display-font mt-3 text-4xl font-semibold italic tracking-tight text-[#2f4235] md:text-5xl">
               A little about me
             </h2>
           </div>
 
-          <div className="space-y-5 text-lg leading-8 text-[#5f6673]">
+          <div className="space-y-5 text-lg leading-8 text-[#687269]">
             <p>
               I am pursuing a Bachelor of Engineering in Cybersecurity
               Engineering at George Mason University. My coursework and
@@ -181,15 +187,15 @@ export default function Home() {
 
       {/* Projects */}
       <section id="projects" className="mx-auto max-w-6xl px-6 py-24">
-        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#536d8c]">
-          Featured Projects
+        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#4f6253]">
+          // Featured Projects
         </p>
 
-        <h2 className="mt-3 text-3xl font-semibold tracking-tight">
+        <h2 className="display-font mt-3 text-4xl font-semibold italic tracking-tight text-[#2f4235] md:text-5xl">
           Selected work
         </h2>
 
-        <p className="mt-4 max-w-2xl leading-7 text-[#5f6673]">
+        <p className="mt-4 max-w-2xl leading-7 text-[#687269]">
           A selection of engineering and technology projects involving
           hardware, software, networking, and user-focused design.
         </p>
@@ -198,15 +204,17 @@ export default function Home() {
           {projects.map((project) => (
             <article
               key={project.title}
-              className="rounded-3xl border border-black/10 bg-white p-7 transition hover:-translate-y-1 hover:shadow-lg"
+              className="rounded-[2rem] border border-[#cbd3c5] bg-[#fbf8f1] p-7 transition duration-300 hover:-translate-y-1 hover:border-[#9eaa92] hover:shadow-[0_18px_45px_rgba(47,66,53,0.12)]"
             >
-              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#536d8c]">
+              <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#4f6253]">
                 {project.tools}
               </p>
 
-              <h3 className="mt-5 text-2xl font-semibold">{project.title}</h3>
+              <h3 className="display-font mt-5 text-3xl font-semibold tracking-tight text-[#2f4235]">
+                {project.title}
+              </h3>
 
-              <p className="mt-4 leading-7 text-[#5f6673]">
+              <p className="mt-4 leading-7 text-[#687269]">
                 {project.description}
               </p>
             </article>
@@ -215,58 +223,52 @@ export default function Home() {
       </section>
 
       {/* Technical Labs */}
-      <section id="labs" className="border-y border-black/10 bg-white">
+      <section
+        id="labs"
+        className="border-y border-[#cbd3c5] bg-[#fbf8f1]"
+      >
         <div className="mx-auto max-w-6xl px-6 py-24">
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#536d8c]">
-            Hands-On Security Experience
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#4f6253]">
+            // Hands-On Security Experience
           </p>
 
-          <h2 className="mt-3 text-3xl font-semibold tracking-tight">
+          <h2 className="display-font mt-3 text-4xl font-semibold italic tracking-tight text-[#2f4235] md:text-5xl">
             Technical demonstrations
           </h2>
 
-          <p className="mt-4 max-w-3xl leading-7 text-[#5f6673]">
+          <p className="mt-4 max-w-3xl leading-7 text-[#687269]">
             These demonstrations highlight practical experience with Linux
-            administration, system hardening, storage management, containers,
-            and web-service deployment.
+            administration, system hardening, storage management,
+            containerization, software security, and operating systems.
           </p>
 
           <div className="mt-12 space-y-10">
             {technicalLabs.map((lab) => (
               <article
                 key={lab.title}
-                className="overflow-hidden rounded-3xl border border-black/10 bg-[#f8f7f4]"
+                className="overflow-hidden rounded-[2rem] border border-[#cbd3c5] bg-[#f5f0e6] shadow-[0_14px_35px_rgba(47,66,53,0.08)]"
               >
                 <div className="grid md:grid-cols-[1.1fr_1fr]">
-                  {/* Video */}
                   <div className="aspect-video bg-black">
-                    {lab.youtubeId.startsWith("PASTE_") ? (
-                      <div className="flex h-full items-center justify-center px-8 text-center text-sm text-white/70">
-                        Add the YouTube video ID in the technicalLabs array to
-                        display this video.
-                      </div>
-                    ) : (
-                      <iframe
-                        className="h-full w-full"
-                        src={`https://www.youtube.com/embed/${lab.youtubeId}`}
-                        title={`${lab.title} video demonstration`}
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        allowFullScreen
-                      />
-                    )}
+                    <iframe
+                      className="h-full w-full"
+                      src={`https://www.youtube.com/embed/${lab.youtubeId}`}
+                      title={`${lab.title} video demonstration`}
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      allowFullScreen
+                    />
                   </div>
 
-                  {/* Description */}
                   <div className="flex flex-col justify-center p-7 md:p-10">
-                    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#536d8c]">
+                    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#4f6253]">
                       {lab.category}
                     </p>
 
-                    <h3 className="mt-4 text-2xl font-semibold md:text-3xl">
+                    <h3 className="display-font mt-4 text-3xl font-semibold tracking-tight text-[#2f4235] md:text-4xl">
                       {lab.title}
                     </h3>
 
-                    <p className="mt-5 leading-7 text-[#5f6673]">
+                    <p className="mt-5 leading-7 text-[#687269]">
                       {lab.description}
                     </p>
 
@@ -274,24 +276,22 @@ export default function Home() {
                       {lab.skills.map((skill) => (
                         <span
                           key={skill}
-                          className="rounded-full border border-black/10 bg-white px-3 py-1.5 text-xs font-medium text-[#536d8c]"
+                          className="rounded-full border border-[#b7c2af] bg-[#fbf8f1] px-3 py-1.5 text-[11px] font-medium uppercase tracking-wide text-[#4f6253]"
                         >
                           {skill}
                         </span>
                       ))}
                     </div>
 
-                    {!lab.youtubeId.startsWith("PASTE_") && (
-                      <a
-                        href={`https://www.youtube.com/watch?v=${lab.youtubeId}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="mt-7 inline-flex w-fit items-center gap-2 text-sm font-semibold text-[#536d8c] hover:underline"
-                      >
-                        Watch on YouTube
-                        <span aria-hidden="true">↗</span>
-                      </a>
-                    )}
+                    <a
+                      href={`https://www.youtube.com/watch?v=${lab.youtubeId}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-7 inline-flex w-fit items-center gap-2 text-sm font-semibold text-[#4f6253] hover:underline"
+                    >
+                      Watch on YouTube
+                      <span aria-hidden="true">↗</span>
+                    </a>
                   </div>
                 </div>
               </article>
@@ -301,40 +301,46 @@ export default function Home() {
       </section>
 
       {/* Skills */}
-      <section id="skills" className="bg-[#172033] text-white">
+      <section id="skills" className="bg-[#2f4235] text-[#fbf8f1]">
         <div className="mx-auto max-w-6xl px-6 py-24">
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#b7c8dc]">
-            Skills
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#dce3d5]">
+            // Skills
           </p>
 
-          <h2 className="mt-3 text-3xl font-semibold tracking-tight">
+          <h2 className="display-font mt-3 text-4xl font-semibold italic tracking-tight text-[#fbf8f1] md:text-5xl">
             Technical foundation
           </h2>
 
           <div className="mt-12 grid gap-10 md:grid-cols-3">
             <div>
-              <h3 className="text-lg font-semibold">Programming</h3>
+              <h3 className="display-font text-2xl font-semibold text-[#fbf8f1]">
+                Programming
+              </h3>
 
-              <p className="mt-4 leading-8 text-white/70">
-                Python, C, MATLAB, TypeScript fundamentals
+              <p className="mt-4 leading-8 text-[#dce3d5]">
+                Python, C, MATLAB, and TypeScript fundamentals
               </p>
             </div>
 
             <div>
-              <h3 className="text-lg font-semibold">Cybersecurity</h3>
+              <h3 className="display-font text-2xl font-semibold text-[#fbf8f1]">
+                Cybersecurity
+              </h3>
 
-              <p className="mt-4 leading-8 text-white/70">
+              <p className="mt-4 leading-8 text-[#dce3d5]">
                 Network security, system hardening, packet analysis,
-                vulnerability analysis, security fundamentals
+                vulnerability analysis, and security fundamentals
               </p>
             </div>
 
             <div>
-              <h3 className="text-lg font-semibold">Platforms and Tools</h3>
+              <h3 className="display-font text-2xl font-semibold text-[#fbf8f1]">
+                Platforms and Tools
+              </h3>
 
-              <p className="mt-4 leading-8 text-white/70">
+              <p className="mt-4 leading-8 text-[#dce3d5]">
                 Linux, Docker, Nginx, Wireshark, Kali Linux, GitHub, VS Code,
-                virtual machines
+                and virtual machines
               </p>
             </div>
           </div>
@@ -342,17 +348,17 @@ export default function Home() {
       </section>
 
       {/* Contact */}
-      <section id="contact" className="bg-white">
+      <section id="contact" className="bg-[#fbf8f1]">
         <div className="mx-auto max-w-6xl px-6 py-24">
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#536d8c]">
-            Contact
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#4f6253]">
+            // Contact
           </p>
 
-          <h2 className="mt-3 text-4xl font-semibold tracking-tight md:text-5xl">
+          <h2 className="display-font mt-3 text-5xl font-semibold italic tracking-tight text-[#2f4235] md:text-6xl">
             Let&apos;s connect.
           </h2>
 
-          <p className="mt-5 max-w-2xl text-lg leading-8 text-[#5f6673]">
+          <p className="mt-5 max-w-2xl text-lg leading-8 text-[#687269]">
             I&apos;m interested in cybersecurity internships, professional
             development opportunities, and meaningful technical projects.
           </p>
@@ -360,7 +366,7 @@ export default function Home() {
           <div className="mt-8 flex flex-wrap gap-4">
             <a
               href="mailto:zaynababdulquddos@gmail.com"
-              className="rounded-full bg-[#172033] px-6 py-3 text-sm font-medium text-white"
+              className="rounded-full bg-[#4f6253] px-6 py-3 text-sm font-medium text-[#fbf8f1] transition duration-300 hover:bg-[#2f4235]"
             >
               Email me
             </a>
@@ -369,7 +375,7 @@ export default function Home() {
               href="https://www.linkedin.com/in/zaynab-a-2a5403302"
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-full border border-[#172033] px-6 py-3 text-sm font-medium"
+              className="rounded-full border border-[#4f6253] px-6 py-3 text-sm font-medium text-[#4f6253] transition duration-300 hover:bg-[#4f6253] hover:text-[#fbf8f1]"
             >
               LinkedIn
             </a>
@@ -378,11 +384,11 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-black/10 bg-white">
-        <div className="mx-auto flex max-w-6xl flex-col gap-2 px-6 py-8 text-sm text-[#5f6673] sm:flex-row sm:justify-between">
+      <footer className="border-t border-[#cbd3c5] bg-[#fbf8f1]">
+        <div className="mx-auto flex max-w-6xl flex-col gap-2 px-6 py-8 text-sm text-[#687269] sm:flex-row sm:justify-between">
           <p>© 2026 Zaynab Abdulquddos</p>
 
-          <a href="#home" className="hover:text-[#172033]">
+          <a href="#home" className="transition hover:text-[#2f4235]">
             Back to top ↑
           </a>
         </div>
