@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Zaynab Abdulquddos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Playfair+Display:ital,wght@1,500;1,600;1,700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: cream graph-paper site, olive terminal panels as "instruments", one section per cyber workflow (shell, packet capture, log hunt, labs, scan, cipher). */
+:root{
+  --cream:#f4eed9;
+  --cream-2:#ebe3c6;
+  --olive:#6b7a2f;
+  --olive-deep:#2c3716;
+  --olive-ink:#1c2410;
+  --lime:#c3dc57;
+  --rust:#b4532a;
+  --line:rgba(44,55,22,.14);
+  --display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  color-scheme:light;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:64px}
+body{
+  background:var(--cream);color:var(--olive-ink);font-family:var(--mono);font-size:15px;line-height:1.6;
+  background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);
+  background-size:44px 44px;overflow-x:hidden;
+}
+#rain{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:.5}
+.glow{position:fixed;width:420px;height:420px;border-radius:50%;pointer-events:none;z-index:0;
+  background:radial-gradient(circle,rgba(195,220,87,.35),transparent 65%);transform:translate(-50%,-50%);left:50%;top:30%}
+main,header.bar,footer{position:relative;z-index:1}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--olive);outline-offset:3px;border-radius:3px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;line-height:1.05}
+.wrap{max-width:1160px;margin:0 auto;padding:0 20px}
+
+/* status bar */
+.bar{position:sticky;top:0;z-index:20;background:var(--olive-deep);color:var(--cream);border-bottom:2px solid var(--lime)}
+.bar .wrap{display:flex;align-items:center;gap:18px;height:48px}
+.logo{font-weight:700;letter-spacing:.08em;text-decoration:none;color:var(--lime);white-space:nowrap}
+.bar nav{display:flex;gap:4px;margin-left:auto;overflow-x:auto;scrollbar-width:none}
+.bar nav a{padding:6px 10px;text-decoration:none;font-size:13px;border-radius:4px;white-space:nowrap}
+.bar nav a:hover,.bar nav a.on{background:var(--lime);color:var(--olive-ink)}
+.clock{font-size:12px;opacity:.75;white-space:nowrap}
+.clock i{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--lime);margin-right:6px;animation:pulse 1.6s infinite}
+@keyframes pulse{50%{opacity:.25}}
+@media (max-width:760px){.clock{display:none}}
+
+/* hero */
+.hero{padding:56px 0 40px}
+.hero .wrap{display:grid;grid-template-columns:1.05fr 1fr;gap:36px;align-items:center}
+@media (max-width:900px){.hero .wrap{grid-template-columns:1fr}}
+.eyebrow{font-size:13px;color:var(--olive);font-weight:700;letter-spacing:.06em}
+h1{font-family:"Playfair Display",Georgia,"Times New Roman",serif;font-style:italic;font-size:clamp(46px,8vw,92px);font-weight:600;letter-spacing:-.015em;line-height:1.02;margin:10px 0 18px;color:var(--olive-deep)}
+h1 span{color:var(--olive);display:block}
+.lede{max-width:52ch;font-size:16px}
+.badges{display:flex;flex-wrap:wrap;gap:8px;margin:22px 0}
+.badge{border:2px solid var(--olive-deep);padding:4px 10px;font-size:12px;font-weight:700;background:var(--cream-2);box-shadow:3px 3px 0 var(--olive-deep)}
+.badge.hot{background:var(--lime)}
+.btns{display:flex;flex-wrap:wrap;gap:12px}
+.btn{font:inherit;font-weight:700;font-size:14px;text-decoration:none;cursor:pointer;padding:11px 18px;border:2px solid var(--olive-deep);background:var(--olive-deep);color:var(--cream);box-shadow:4px 4px 0 var(--olive);transition:transform .12s,box-shadow .12s}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--olive)}
+.btn.alt{background:transparent;color:var(--olive-deep)}
+
+/* terminal */
+.term{background:var(--olive-ink);color:#e6edc8;border:2px solid var(--olive-deep);box-shadow:8px 8px 0 var(--olive);position:relative;overflow:hidden}
+.term::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(255,255,255,.035) 0 1px,transparent 1px 3px);pointer-events:none}
+.term-top{display:flex;align-items:center;gap:7px;padding:8px 12px;background:var(--olive-deep);font-size:12px;color:var(--lime)}
+.term-top b{width:11px;height:11px;border-radius:50%;background:var(--olive);display:inline-block}
+.term-top span{margin-left:auto}
+.screen{height:340px;overflow-y:auto;padding:14px;font-size:13px;line-height:1.55;scrollbar-width:thin;scrollbar-color:var(--olive) transparent}
+.screen p{white-space:pre-wrap;word-break:break-word;margin-bottom:2px}
+.screen a{color:var(--lime)}
+.dim{opacity:.6}.ok{color:var(--lime)}.warn{color:#f0b27a}.key{color:#9fc0d8}
+.prompt{display:flex;gap:8px;padding:0 14px 12px;font-size:13px;align-items:center}
+.prompt label{color:var(--lime);white-space:nowrap}
+.prompt input{flex:1;min-width:0;background:transparent;border:0;color:#fff;font:inherit;outline:none;caret-color:var(--lime)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;padding:0 14px 14px}
+.chip{font:inherit;font-size:12px;background:transparent;color:var(--lime);border:1px solid var(--olive);padding:2px 9px;cursor:pointer}
+.chip:hover{background:var(--lime);color:var(--olive-ink)}
+
+/* sections */
+section{padding:72px 0}
+.tag{font-size:13px;font-weight:700;color:var(--olive);letter-spacing:.04em}
+h2{font-size:clamp(32px,5vw,54px);font-weight:800;letter-spacing:-.02em;color:var(--olive-deep);margin:6px 0 10px}
+.sub{max-width:62ch;margin-bottom:28px}
+.scr{cursor:default}
+
+/* about */
+.about{display:grid;grid-template-columns:1.2fr 1fr;gap:28px}
+@media (max-width:900px){.about{grid-template-columns:1fr}}
+.card{background:var(--cream-2);border:2px solid var(--olive-deep);padding:22px;box-shadow:5px 5px 0 var(--olive-deep)}
+.card h3{font-size:24px;margin-bottom:6px}
+.card ul{padding-left:18px;margin-top:8px}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.stat{border:2px solid var(--olive-deep);padding:14px;background:var(--cream)}
+.stat strong{display:block;font-family:var(--display);font-size:42px;line-height:1;color:var(--olive)}
+.stat span{font-size:12px}
+
+/* packet capture */
+.wire{background:var(--cream);border:2px solid var(--olive-deep);box-shadow:6px 6px 0 var(--olive-deep)}
+.filter{display:flex;gap:10px;align-items:center;padding:8px 12px;background:var(--olive-deep);color:var(--cream);font-size:12px}
+.filter b{color:var(--lime)}
+.filter input{flex:1;min-width:0;background:var(--olive-ink);border:1px solid var(--olive);color:#fff;font:inherit;padding:4px 8px}
+.tbl{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:640px;font-size:13px}
+th{text-align:left;background:var(--cream-2);padding:6px 10px;border-bottom:2px solid var(--olive-deep);font-size:12px}
+td{padding:7px 10px;border-bottom:1px solid var(--line)}
+tbody tr{cursor:pointer}
+tbody tr:hover{background:rgba(195,220,87,.4)}
+tbody tr.sel{background:var(--olive-deep);color:var(--cream)}
+tbody tr.sel .proto{background:var(--lime);color:var(--olive-ink)}
+tbody tr:focus-visible{outline-offset:-3px}
+.proto{display:inline-block;padding:0 7px;font-weight:700;font-size:11px;background:var(--cream-2);border:1px solid var(--olive-deep)}
+.detail{display:grid;grid-template-columns:1.2fr 1fr;border-top:2px solid var(--olive-deep)}
+@media (max-width:900px){.detail{grid-template-columns:1fr}}
+.tree{padding:16px;font-size:13px}
+.tree h3{font-size:22px;margin-bottom:8px}
+.tree details{margin:4px 0}
+.tree summary{cursor:pointer;font-weight:700}
+.tree li{margin:4px 0 4px 18px}
+.hex{background:var(--olive-ink);color:var(--lime);padding:16px;font-size:12px;line-height:1.7;overflow-x:auto;white-space:pre}
+.hex .off{opacity:.5}.hex .asc{color:#e6edc8}
+
+/* handshake */
+.hs{margin-top:30px;display:grid;grid-template-columns:1fr 1.3fr;gap:22px}
+@media (max-width:900px){.hs{grid-template-columns:1fr}}
+.seq{background:var(--olive-ink);color:#e6edc8;padding:16px;border:2px solid var(--olive-deep)}
+.seq .ends{display:flex;justify-content:space-between;color:var(--lime);font-weight:700;margin-bottom:10px}
+.msg{position:relative;height:38px;margin:6px 0;opacity:.18;transition:opacity .3s}
+.msg.on{opacity:1}
+.msg .ln{position:absolute;left:8px;right:8px;top:18px;border-top:2px dashed var(--olive)}
+.msg.on .ln{border-top-style:solid;border-color:var(--lime)}
+.msg .ar{position:absolute;top:9px;font-size:13px;color:var(--lime)}
+.msg.ltr .ar{right:0}.msg.rtl .ar{left:0}
+.msg .lb{position:absolute;left:50%;transform:translateX(-50%);top:-2px;font-size:11px;background:var(--olive-ink);padding:0 6px;white-space:nowrap}
+.msg.bad .lb{color:#f0b27a}
+.msg.bad.on .ln{border-color:#f0b27a}
+
+/* hunt */
+.hunt{display:grid;grid-template-columns:1.4fr 1fr;gap:22px}
+@media (max-width:900px){.hunt{grid-template-columns:1fr}}
+.log{background:var(--olive-ink);color:#e6edc8;border:2px solid var(--olive-deep);font-size:12.5px;overflow-x:auto}
+.log button{display:block;width:100%;text-align:left;font:inherit;color:inherit;background:transparent;border:0;border-bottom:1px solid rgba(255,255,255,.06);padding:5px 12px;cursor:pointer;white-space:pre}
+.log button:hover{background:rgba(195,220,87,.18)}
+.log button.bot{background:var(--lime);color:var(--olive-ink);font-weight:700}
+.log button.miss{background:rgba(180,83,42,.5)}
+.verdict{min-height:120px}
+.verdict p{margin-top:8px}
+
+/* labs */
+.labs{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px}
+.lab{display:flex;flex-direction:column;text-decoration:none;border:2px solid var(--olive-deep);background:var(--cream-2);box-shadow:5px 5px 0 var(--olive-deep);transition:transform .15s,box-shadow .15s}
+.lab:hover{transform:translate(-3px,-3px);box-shadow:8px 8px 0 var(--olive-deep)}
+.crt{aspect-ratio:16/10;background:var(--olive-ink);position:relative;display:grid;place-items:center;overflow:hidden;border-bottom:2px solid var(--olive-deep)}
+.crt svg{width:78%;height:auto}
+.crt::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(255,255,255,.05) 0 1px,transparent 1px 3px)}
+.crt .play{position:absolute;right:10px;bottom:10px;z-index:2;background:var(--lime);color:var(--olive-ink);font-weight:700;font-size:12px;padding:3px 9px}
+.lab:hover .crt .play{background:#fff}
+.lab .body{padding:16px;display:flex;flex-direction:column;gap:6px}
+.lab h3{font-size:22px}
+.lab small{color:var(--olive);font-weight:700}
+.builds{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin-top:34px}
+
+/* skills */
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.tab{font:inherit;font-size:13px;font-weight:700;padding:6px 14px;border:2px solid var(--olive-deep);background:var(--cream);cursor:pointer}
+.tab[aria-pressed="true"]{background:var(--olive-deep);color:var(--lime)}
+.skills{display:flex;flex-wrap:wrap;gap:10px}
+.sk{border:2px solid var(--olive-deep);padding:6px 12px;background:var(--cream-2);font-size:13px;transition:all .2s}
+.sk.dim2{opacity:.18}
+.sk.lit{background:var(--lime);transform:translateY(-3px)}
+
+/* leadership */
+.lead{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px}
+.lead .card small{font-weight:700;color:var(--olive)}
+
+/* contact */
+.cipher{background:var(--olive-ink);color:#e6edc8;border:2px solid var(--olive-deep);box-shadow:8px 8px 0 var(--olive);padding:26px}
+.cipher .out{font-size:clamp(20px,4vw,34px);font-weight:700;color:var(--lime);letter-spacing:.06em;margin:14px 0;word-break:break-word;min-height:1.4em}
+.cipher input[type=range]{width:100%;accent-color:var(--lime)}
+.cipher .row{display:flex;justify-content:space-between;font-size:12px}
+.reach{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px;align-items:center}
+.reach code{background:var(--cream);color:var(--olive-ink);padding:8px 12px;border:2px solid var(--olive-deep);font-weight:700}
+.unlocked .out{animation:flash .6s 3}
+@keyframes flash{50%{color:#fff;text-shadow:0 0 16px var(--lime)}}
+footer{padding:30px 0 50px;font-size:12px;border-top:2px solid var(--olive-deep);background:var(--cream-2)}
+footer .wrap{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--olive-deep);color:var(--lime);padding:10px 18px;border:2px solid var(--lime);z-index:50;opacity:0;pointer-events:none;transition:opacity .3s}
+.toast.show{opacity:1}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<canvas id="rain" aria-hidden="true"></canvas>
+<div class="glow" id="glow" aria-hidden="true"></div>
+
+<header class="bar">
+  <div class="wrap">
+    <a class="logo" href="#top">ZA://</a>
+    <nav aria-label="Sections">
+      <a href="#about">about</a><a href="#projects">packets</a><a href="#hunt">log hunt</a><a href="#labs">labs</a><a href="#skills">skills</a><a href="#leadership">leadership</a><a href="#contact">contact</a>
+    </nav>
+    <div class="clock"><i></i><span id="clock">SYS ONLINE</span></div>
+  </div>
+</header>
+
+<main id="top">
+<section class="hero" aria-label="Introduction">
+  <div class="wrap">
+    <div>
+      <p class="eyebrow">// cyber security engineering @ george mason</p>
+      <h1>Zaynab <span>Abdulquddos</span></h1>
+      <p class="lede">I read packets, break my own lab networks, and write down what I find. Security+ certified, Dean's List every semester, and currently co-leading a 130+ member Women in Cybersecurity chapter.</p>
+      <div class="badges">
+        <span class="badge hot">CompTIA Security+</span>
+        <span class="badge">3.7 GPA</span>
+        <span class="badge">B.Eng → M.S. (BAM)</span>
+        <span class="badge">Fairfax, VA</span>
+      </div>
+      <div class="btns">
+        <a class="btn" href="#projects">Open packet capture</a>
+        <a class="btn alt" href="#labs">Watch my labs</a>
+      </div>
+    </div>
+    <div class="term" role="region" aria-label="Interactive terminal">
+      <div class="term-top"><b></b><b></b><b></b><span>zaynab@gmu:~ — try typing "help"</span></div>
+      <div class="screen" id="screen" aria-live="polite"></div>
+      <form class="prompt" id="form" autocomplete="off">
+        <label for="cmd">guest@zaynab:~$</label>
+        <input id="cmd" type="text" spellcheck="false" autocapitalize="off" aria-label="Terminal command">
+      </form>
+      <div class="chips" id="chips"></div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap">
+    <p class="tag">// 01 about</p>
+    <h2 class="scr">Network defense, from the wire up.</h2>
+    <p class="sub">Cyber Security Engineering student with hands-on work in network protocol analysis, vulnerability assessment and secure network design. I like understanding how things talk to each other, then working out how they can be made to talk safely.</p>
+    <div class="about">
+      <div class="card">
+        <h3>George Mason University</h3>
+        <small>B.Eng. Cyber Security Engineering · expected May 2028</small>
+        <ul>
+          <li>Accelerated BAM program: M.S. Cybersecurity Engineering, expected Fall 2028</li>
+          <li>Dean's List every semester · Academic Honors</li>
+          <li>Coursework: Computer Networking, Secure Software Engineering, Operating Systems, OO Systems Modeling &amp; Design, Programming for Engineers, Discrete Math</li>
+        </ul>
+      </div>
+      <div class="stats">
+        <div class="stat"><strong data-n="3.7">3.7</strong><span>GPA out of 4.0</span></div>
+        <div class="stat"><strong data-n="130" data-plus="1">130+</strong><span>members in WiCyS GMU</span></div>
+        <div class="stat"><strong data-n="4">4</strong><span>core protocols dissected: DNS, HTTP, ARP, ICMP</span></div>
+        <div class="stat"><strong data-n="4">4</strong><span>lab videos on YouTube</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="wrap">
+    <p class="tag">// 02 packet capture</p>
+    <h2 class="scr">My work, as a capture file.</h2>
+    <p class="sub">Every row is a project or experience. Click one to decode it, or type in the filter. Arrow keys move between rows.</p>
+    <div class="wire">
+      <div class="filter"><b>Filter:</b><input id="flt" type="text" placeholder="try: wpa2, ctf, linux, 2025" aria-label="Filter packets"><span id="cnt"></span></div>
+      <div class="tbl"><table>
+        <thead><tr><th>No.</th><th>Time</th><th>Source</th><th>Destination</th><th>Protocol</th><th>Info</th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table></div>
+      <div class="detail">
+        <div class="tree" id="tree"></div>
+        <div class="hex" id="hex" aria-hidden="true"></div>
+      </div>
+    </div>
+
+    <div class="hs">
+      <div>
+        <p class="tag">// replay</p>
+        <h3 style="font-size:30px;margin:4px 0 8px">The WPA2 four-way handshake</h3>
+        <p>From my wireless assessment lab on Kali Linux: I deauthenticated a client of my own test access point, captured the handshake as it reconnected, and checked the EAPOL frames in Wireshark. Replay the exchange.</p>
+        <p style="margin-top:14px"><button class="btn" id="replay" type="button">Replay capture</button></p>
+      </div>
+      <div class="seq" id="seq" role="img" aria-label="Sequence diagram of deauthentication followed by the four EAPOL handshake messages between a client and an access point">
+        <div class="ends"><span>CLIENT</span><span>ACCESS POINT</span></div>
+        <div id="msgs"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="hunt">
+  <div class="wrap">
+    <p class="tag">// 03 log hunt</p>
+    <h2 class="scr">Find the bot.</h2>
+    <p class="sub">In my Deloitte Australia job simulation I inspected web request logs after a simulated data breach, ruled out a direct internet-based attack, and found an automated-interval request tied to one user ID. This is a small recreation with made-up data. Click the line that looks automated.</p>
+    <div class="hunt">
+      <div class="log" id="log" role="list" aria-label="Simulated web request log"></div>
+      <div class="card verdict" id="verdict" aria-live="polite">
+        <h3>Waiting for a suspect</h3>
+        <p>Humans are irregular. Scripts keep time. Look at the gaps between each user's requests.</p>
+        <p><button class="btn alt" type="button" id="hint">Give me a hint</button></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="labs">
+  <div class="wrap">
+    <p class="tag">// 04 lab recordings</p>
+    <h2 class="scr">Labs, on tape.</h2>
+    <p class="sub">Four walkthroughs I recorded. Each card opens the video on YouTube.</p>
+    <div class="labs" id="labgrid"></div>
+    <div class="builds">
+      <div class="card"><small>BUILD · ARDUINO · EMBEDDED</small><h3>Smart Grip Trainer</h3><p>A grip-strength device built around a force-sensitive resistor, with an OLED display, LEDs and audio feedback.</p></div>
+      <div class="card"><small>BUILD · AI · PROTOTYPE</small><h3>AI Rehabilitation Navigator</h3><p>A chatbot prototype that helps people find rehabilitation information and related resources.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <p class="tag">// 05 skill scan</p>
+    <h2 class="scr">What's open on this host.</h2>
+    <p class="sub">Filter by category, or run a scan.</p>
+    <div class="tabs" id="tabs"></div>
+    <div class="skills" id="skillgrid"></div>
+    <p style="margin-top:20px"><button class="btn" id="scan" type="button">Run scan</button></p>
+  </div>
+</section>
+
+<section id="leadership">
+  <div class="wrap">
+    <p class="tag">// 06 leadership</p>
+    <h2 class="scr">People, not just packets.</h2>
+    <div class="lead" style="margin-top:24px">
+      <div class="card">
+        <small>AUG 2025 – PRESENT</small>
+        <h3>Co-President Delegate &amp; Secretary</h3>
+        <p><b>Women in Cybersecurity (WiCyS), GMU Chapter</b></p>
+        <ul>
+          <li>Selected to support executive leadership and succession planning for a 130+ member organization.</li>
+          <li>Partner with the executive board on chapter strategy, operations and long-term governance.</li>
+          <li>Lead professional development events and workshops, and build relationships with alumni, sponsors and industry stakeholders.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <small>AUG 2025 – PRESENT</small>
+        <h3>Academic Tutor</h3>
+        <p><b>EduTutorVA</b></p>
+        <ul><li>One-on-one academic support for K–12 students in underserved Virginia schools, building comprehension and confidence.</li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <p class="tag">// 07 contact</p>
+    <h2 class="scr">Let's talk security.</h2>
+    <p class="sub">I'm looking for cybersecurity internships, professional development and meaningful technical projects. First, decode the message below by dragging the slider.</p>
+    <div class="cipher" id="cipher">
+      <div class="row"><span>CAESAR CIPHER · drag until it reads as English</span><span id="shiftlbl">shift 0</span></div>
+      <div class="out" id="cout"></div>
+      <label for="shift" style="display:none">Shift</label>
+      <input type="range" id="shift" min="0" max="25" value="0">
+      <div class="reach">
+        <code id="mail">zaynababdulquddos@gmail.com</code>
+        <button class="btn" id="copy" type="button">Copy email</button>
+        <a class="btn alt" style="background:var(--cream)" href="https://www.linkedin.com/in/zaynab-a-2a5403302" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer><div class="wrap"><span>© 2026 Zaynab Abdulquddos · Fairfax, VA</span><span>Hint: the Konami code does something here.</span></div></footer>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+(function(){
+"use strict";
+var $=function(s){return document.querySelector(s)};
+var reduce=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+function esc(s){return s.replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function toast(t){var el=$("#toast");el.textContent=t;el.classList.add("show");clearTimeout(toast.t);toast.t=setTimeout(function(){el.classList.remove("show")},2200)}
+
+/* ---------- background rain + cursor glow ---------- */
+var cv=$("#rain"),cx=cv.getContext("2d"),cols=[],fs=16;
+function sizeRain(){cv.width=innerWidth;cv.height=innerHeight;cols=[];for(var i=0;i<Math.ceil(cv.width/fs);i++)cols.push(Math.random()*cv.height/fs)}
+sizeRain();addEventListener("resize",sizeRain);
+var chars="0123456789ABCDEF";
+function rain(){
+  cx.clearRect(0,0,cv.width,cv.height);
+  cx.font=fs+"px "+getComputedStyle(document.body).fontFamily;
+  for(var i=0;i<cols.length;i++){
+    if(i%3)continue;
+    var y=cols[i]*fs;
+    for(var k=0;k<7;k++){
+      cx.fillStyle="rgba(107,122,47,"+(0.22-k*0.03)+")";
+      cx.fillText(chars[(Math.random()*16)|0],i*fs,y-k*fs);
+    }
+    if(!reduce){cols[i]+=0.25;if(cols[i]*fs>cv.height+120&&Math.random()>.97)cols[i]=0}
+  }
+  if(!reduce)requestAnimationFrame(rain);
+}
+rain();
+addEventListener("pointermove",function(e){var g=$("#glow");g.style.left=e.clientX+"px";g.style.top=e.clientY+"px"});
+
+/* clock */
+function tick(){var d=new Date();$("#clock").textContent="SYS ONLINE · "+d.toTimeString().slice(0,8)}
+tick();setInterval(tick,1000);
+
+/* nav highlight */
+var links=document.querySelectorAll(".bar nav a");
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(a){a.classList.toggle("on",a.getAttribute("href")==="#"+e.target.id)})}})},{rootMargin:"-45% 0px -50% 0px"});
+document.querySelectorAll("section[id]").forEach(function(s){io.observe(s)});
+
+/* scramble headings on hover */
+var gl="!<>-_\\/[]{}=+*^?#01";
+document.querySelectorAll(".scr").forEach(function(h){
+  var orig=h.textContent,busy=false;
+  h.addEventListener("mouseenter",function(){
+    if(busy||reduce)return;busy=true;var f=0;
+    var id=setInterval(function(){
+      var out="";for(var i=0;i<orig.length;i++){out+=(orig[i]===" "||i<f)?orig[i]:gl[(Math.random()*gl.length)|0]}
+      h.textContent=out;f+=2;
+      if(f>orig.length+2){clearInterval(id);h.textContent=orig;busy=false}
+    },28);
+  });
+});
+
+/* stats count-up (final value is already in the HTML) */
+if(!reduce){document.querySelectorAll(".stat strong").forEach(function(el){
+  var end=parseFloat(el.dataset.n),plus=el.dataset.plus?"+":"",dec=String(end).indexOf(".")>-1,t0=performance.now();
+  (function step(t){var p=Math.min((t-t0)/900,1),v=end*p;el.textContent=(dec?v.toFixed(1):Math.round(v))+(p===1?plus:"");if(p<1)requestAnimationFrame(step)})(t0);
+})}
+
+/* ---------- terminal ---------- */
+var screen=$("#screen"),input=$("#cmd"),hist=[],hi=0;
+function out(html,cls){var p=document.createElement("p");if(cls)p.className=cls;p.innerHTML=html;screen.appendChild(p);screen.scrollTop=screen.scrollHeight}
+var C={
+  help:function(){out('Commands:\n  <span class="ok">whoami</span>     who is this\n  <span class="ok">education</span>  school and honors\n  <span class="ok">skills</span>     technical skills\n  <span class="ok">projects</span>   the packet capture\n  <span class="ok">labs</span>       video walkthroughs\n  <span class="ok">leadership</span> WiCyS and tutoring\n  <span class="ok">contact</span>    get in touch\n  <span class="ok">clear</span>      wipe the screen\nThere may be hidden commands.')},
+  whoami:function(){out('<span class="ok">Zaynab Abdulquddos</span>\nCyber Security Engineering student at George Mason University (3.7 GPA).\nCompTIA Security+ (SY0-701). Wireshark, Linux and Python are my daily tools.\nCo-President Delegate &amp; Secretary of WiCyS at GMU.')},
+  education:function(){out('<span class="key">B.Eng. Cyber Security Engineering</span> · GMU · exp. May 2028\n<span class="key">M.S. Cybersecurity Engineering</span> (BAM) · exp. Fall 2028\nDean\'s List every semester · Academic Honors')},
+  skills:function(){out('<span class="key">Networking</span>  TCP/IP, DNS, HTTP, ARP, ICMP, packet analysis\n<span class="key">Code</span>        Python, Java, C\n<span class="key">Security</span>    Threat modeling, Zero Trust, vuln assessment, IDS, RBAC, crypto\n<span class="key">Tools</span>       Wireshark, Kali, Aircrack-ng, Linux, Git, VMware, SIEM\nSee the <a href="#skills">skill scan</a>.')},
+  projects:function(){out('8 captured packets. Open the <a href="#projects">packet capture</a>.')},
+  labs:function(){out('4 recordings: buffer overflow, CPU scheduling, Linux USB storage, Docker + Nginx. <a href="#labs">Watch them</a>.')},
+  leadership:function(){out('WiCyS GMU: Co-President Delegate &amp; Secretary (130+ members).\nEduTutorVA: K–12 tutor in underserved Virginia schools.\n<a href="#leadership">Details</a>')},
+  contact:function(){out('zaynababdulquddos@gmail.com\n<a href="https://www.linkedin.com/in/zaynab-a-2a5403302" target="_blank" rel="noopener">linkedin.com/in/zaynab-a-2a5403302</a>\nSolve the <a href="#contact">cipher</a> first.')},
+  ls:function(){out('wireless.pcap  threat-model.md  ctf-writeups/  labs/  resume.pdf')},
+  pwd:function(){out('/home/zaynab/portfolio')},
+  date:function(){out(new Date().toString())},
+  clear:function(){screen.innerHTML=""},
+  sudo:function(a){out(a.join(" ")==="hire zaynab"?'<span class="ok">[sudo] permission granted. Excellent choice.</span> <a href="#contact">Contact</a>':'<span class="warn">guest is not in the sudoers file. This incident will be reported.</span>')},
+  ping:function(){out('PING zaynab 56 bytes\n64 bytes: icmp_seq=1 ttl=64 time=0.4 ms\n64 bytes: icmp_seq=2 ttl=64 time=0.3 ms\n<span class="ok">replies received. host is friendly.</span>')},
+  nmap:function(){out('Starting scan...\n22/tcp   open  curiosity\n80/tcp   open  documentation\n443/tcp  open  least-privilege\n<span class="ok">Scan done: 3 ports open, 0 vulnerabilities.</span>')},
+  hack:function(){out('<span class="warn">Only on networks I own. Try \'nmap\' instead.</span>')}
+};
+function run(line){
+  line=line.trim();if(!line)return;
+  out('<span class="ok">guest@zaynab:~$</span> '+esc(line));
+  hist.push(line);hi=hist.length;
+  var p=line.split(/\s+/),c=p[0].toLowerCase();
+  if(C.hasOwnProperty(c))C[c](p.slice(1));else out('<span class="warn">command not found: '+esc(c)+'</span> (try "help")');
+}
+$("#form").addEventListener("submit",function(e){e.preventDefault();run(input.value);input.value=""});
+input.addEventListener("keydown",function(e){
+  if(e.key==="ArrowUp"&&hist.length){hi=Math.max(0,hi-1);input.value=hist[hi];e.preventDefault()}
+  if(e.key==="ArrowDown"){hi=Math.min(hist.length,hi+1);input.value=hist[hi]||"";e.preventDefault()}
+});
+["help","whoami","education","skills","projects","labs","nmap","contact"].forEach(function(c){
+  var b=document.createElement("button");b.type="button";b.className="chip";b.textContent=c;b.onclick=function(){run(c)};$("#chips").appendChild(b)});
+out('<span class="ok">ZA-OS 1.0 · secure shell ready</span>\n<span class="dim">type a command or tap a chip below</span>');
+out('<span class="ok">guest@zaynab:~$</span> whoami');C.whoami();
+
+/* ---------- packet capture ---------- */
+var P=[
+ {t:"2025",s:"zaynab",d:"network",p:"TCP/IP",i:"Network Traffic Analysis & Protocol Inspection",b:["Captured and analyzed TCP/IP traffic in Wireshark.","Inspected four core protocols (DNS, HTTP, ARP, ICMP) to find protocol anomalies.","Diagnosed connectivity and security issues from the packets."]},
+ {t:"2025",s:"zaynab",d:"architecture",p:"ZERO-TRUST",i:"Secure System Design & Threat Modeling",b:["Applied threat modeling to find attack vectors and guide secure network design.","Used Zero Trust principles: least privilege, authentication, authorization and access control.","Analyzed designs for weaknesses and recommended controls to reduce attack surface."]},
+ {t:"2025",s:"zaynab",d:"ubuntu-vm",p:"LINUX",i:"Linux Systems Administration & Security",b:["Configured and administered Ubuntu Linux virtual machines in VirtualBox.","Command-line administration, process management and troubleshooting."]},
+ {t:"2025",s:"zaynab",d:"linux-hosts",p:"AUDIT",i:"Vulnerability Assessment & System Security",b:["Assessed Linux systems by reviewing files, network activity, user permissions and configurations.","Looked for vulnerabilities and signs of potential intrusion."]},
+ {t:"2025",s:"zaynab",d:"patriotctf",p:"CTF",i:"George Mason PatriotCTF · Participant",b:["Solved challenges under time pressure across applied cryptography, web exploitation, OSINT, reverse engineering and Linux security."]},
+ {t:"2025",s:"zaynab",d:"recoverynext",p:"AI/SDLC",i:"RecoveryNext · AI-Cybersecurity Developer",b:["Designed and tested multi-role workflows across the software development lifecycle for an AI-assisted platform.","Built validation and testing scripts to find weaknesses and improve reliability."]},
+ {t:"2026",s:"kali",d:"target-ap",p:"WPA2",i:"Wireless Network Security Assessment",b:["Captured wireless traffic with Aircrack-ng and airodump-ng on Kali Linux to identify a target access point and its connected client.","Ran deauthentication attacks and captured the WPA2 four-way handshake, then verified the key exchange from EAPOL frames in Wireshark.","Wrote a Python script with itertools to generate a custom wordlist from target-specific patterns, then cracked the network password with Aircrack-ng."]},
+ {t:"Nov 2026",s:"zaynab",d:"deloitte-sim",p:"LOGS",i:"Deloitte Australia Cyber Job Simulation · Forage",b:["Investigated a simulated client data breach by inspecting web request logs.","Ruled out a direct internet-based attack.","Identified an anomalous, automated-interval request tied to a specific user ID."]}
+];
+var sel=0,rowsEl=$("#rows");
+function drawRows(){
+  var q=$("#flt").value.toLowerCase().trim(),n=0;rowsEl.innerHTML="";
+  P.forEach(function(x,k){
+    var hay=(x.t+x.s+x.d+x.p+x.i+x.b.join(" ")).toLowerCase();
+    if(q&&hay.indexOf(q)<0)return;n++;
+    var tr=document.createElement("tr");tr.tabIndex=0;tr.dataset.k=k;
+    if(k===sel)tr.className="sel";
+    tr.innerHTML="<td>"+(k+1)+"</td><td>"+x.t+"</td><td>"+x.s+"</td><td>"+x.d+'</td><td><span class="proto">'+x.p+"</span></td><td>"+esc(x.i)+"</td>";
+    tr.onclick=function(){pick(k)};
+    tr.onkeydown=function(e){
+      if(e.key==="Enter"||e.key===" "){e.preventDefault();pick(k)}
+      if(e.key==="ArrowDown"&&tr.nextSibling){tr.nextSibling.focus()}
+      if(e.key==="ArrowUp"&&tr.previousSibling){tr.previousSibling.focus()}
+    };
+    rowsEl.appendChild(tr);
+  });
+  $("#cnt").textContent=n+" / "+P.length+" packets";
+}
+function pick(k){
+  sel=k;var x=P[k];
+  Array.prototype.forEach.call(rowsEl.children,function(r){r.classList.toggle("sel",+r.dataset.k===k)});
+  $("#tree").innerHTML="<h3>"+esc(x.i)+"</h3>"+
+    '<details open><summary>Frame '+(k+1)+": "+x.t+" · "+x.p+"</summary><ul><li>Source: "+x.s+"</li><li>Destination: "+x.d+"</li></ul></details>"+
+    '<details open><summary>Payload (what I did)</summary><ul>'+x.b.map(function(l){return"<li>"+esc(l)+"</li>"}).join("")+"</ul></details>";
+  var bytes=Array.from(new TextEncoder().encode(x.i)).slice(0,64),lines=[];
+  for(var o=0;o<bytes.length;o+=16){
+    var ch=bytes.slice(o,o+16);
+    lines.push('<span class="off">'+("0000"+o.toString(16)).slice(-4)+"</span>  "+ch.map(function(b){return("0"+b.toString(16)).slice(-2)}).join(" ")+Array(16-ch.length+1).join("   ")+'  <span class="asc">'+esc(ch.map(function(b){return b>31&&b<127?String.fromCharCode(b):"."}).join(""))+"</span>");
+  }
+  $("#hex").innerHTML=lines.join("\n");
+}
+$("#flt").addEventListener("input",drawRows);
+drawRows();pick(6);
+
+/* handshake replay */
+var steps=[
+ {l:"Deauth (spoofed)",d:"rtl",bad:1,n:"deauth"},
+ {l:"M1 ANonce",d:"ltr",n:"M1"},
+ {l:"M2 SNonce + MIC",d:"rtl",n:"M2"},
+ {l:"M3 GTK + MIC",d:"ltr",n:"M3"},
+ {l:"M4 ACK",d:"rtl",n:"M4"}
+];
+var mw=$("#msgs");
+steps.forEach(function(s){
+  var d=document.createElement("div");d.className="msg on "+s.d+(s.bad?" bad":"");
+  d.innerHTML='<div class="ln"></div><span class="ar">'+(s.d==="ltr"?"▶":"◀")+'</span><span class="lb">'+s.l+"</span>";
+  mw.appendChild(d);
+});
+$("#replay").onclick=function(){
+  var ms=mw.children;for(var i=0;i<ms.length;i++)ms[i].classList.remove("on");
+  for(let i=0;i<ms.length;i++)setTimeout(function(){ms[i].classList.add("on")},reduce?0:(i+1)*650);
+};
+
+/* ---------- log hunt ---------- */
+var L=[
+ ["02:13:07","u-2210","GET","/login",200],["02:13:41","u-8832","GET","/products",200],["02:13:58","u-4471","GET","/api/export",200],
+ ["02:14:19","u-0915","POST","/cart",200],["02:14:52","u-2210","GET","/account",200],["02:14:58","u-4471","GET","/api/export",200],
+ ["02:15:33","u-8832","GET","/checkout",200],["02:15:58","u-4471","GET","/api/export",200],["02:16:11","u-0915","GET","/products",200],
+ ["02:16:44","u-7305","GET","/login",401],["02:16:58","u-4471","GET","/api/export",200],["02:17:29","u-2210","POST","/cart",200],
+ ["02:17:58","u-4471","GET","/api/export",200],["02:18:20","u-7305","GET","/login",200]
+];
+var logEl=$("#log"),done=false;
+L.forEach(function(r){
+  var b=document.createElement("button");b.type="button";b.dataset.u=r[1];
+  b.textContent=r[0]+"  "+r[1]+"  "+(r[2]+"    ").slice(0,5)+(r[3]+"            ").slice(0,13)+r[4];
+  b.onclick=function(){
+    if(done)return;
+    var v=$("#verdict");
+    if(r[1]==="u-4471"){
+      done=true;
+      logEl.querySelectorAll("button").forEach(function(x){if(x.dataset.u==="u-4471")x.classList.add("bot")});
+      v.innerHTML='<h3 style="color:var(--olive)">Caught it.</h3><p><b>u-4471</b> hits /api/export every 60 seconds, almost to the second. That regular rhythm points to a script, not a person.</p><p>In the real simulation I traced the same kind of pattern to one user ID, which also showed the breach did not come straight from the internet.</p><p><button class="btn alt" type="button" id="again">Reset</button></p>';
+      $("#again").onclick=function(){done=false;logEl.querySelectorAll("button").forEach(function(x){x.className=""});v.innerHTML='<h3>Waiting for a suspect</h3><p>Humans are irregular. Scripts keep time.</p>'};
+      toast("Bot found: u-4471");
+    }else{
+      b.classList.add("miss");
+      v.innerHTML='<h3>Not quite</h3><p>'+r[1]+" shows irregular gaps, which looks like a human. Compare the spacing of each user's requests.</p>";
+    }
+  };
+  logEl.appendChild(b);
+});
+$("#hint").onclick=function(){toast("Check who requests the same path on a steady beat.")};
+
+/* ---------- labs ---------- */
+var svgs={
+ bo:'<svg viewBox="0 0 220 110" fill="none" stroke="#c3dc57" stroke-width="2"><rect x="10" y="40" width="40" height="30"/><rect x="50" y="40" width="40" height="30"/><rect x="90" y="40" width="40" height="30"/><rect x="130" y="40" width="40" height="30" stroke="#f0b27a"/><rect x="170" y="40" width="40" height="30" stroke="#f0b27a" stroke-dasharray="4 3"/><text x="14" y="60" fill="#c3dc57" stroke="none" font-size="10" font-family="monospace">buf[8]</text><text x="134" y="60" fill="#f0b27a" stroke="none" font-size="10" font-family="monospace">AAAA</text><path d="M20 95h190" stroke="#f0b27a"/><text x="110" y="25" fill="#f0b27a" stroke="none" font-size="11" font-family="monospace">overflow!</text></svg>',
+ cpu:'<svg viewBox="0 0 220 110" fill="none" stroke="#c3dc57" stroke-width="2"><rect x="10" y="20" width="60" height="22" fill="#6b7a2f"/><rect x="70" y="20" width="30" height="22" fill="#c3dc57"/><rect x="100" y="20" width="90" height="22" fill="#2c3716"/><text x="14" y="35" fill="#fff" stroke="none" font-size="10" font-family="monospace">P1</text><text x="76" y="35" fill="#1c2410" stroke="none" font-size="10" font-family="monospace">P2</text><text x="104" y="35" fill="#fff" stroke="none" font-size="10" font-family="monospace">P3</text><path d="M10 60h200"/><text x="10" y="82" fill="#c3dc57" stroke="none" font-size="10" font-family="monospace">0     6   9      18</text><text x="10" y="100" fill="#e6edc8" stroke="none" font-size="10" font-family="monospace">avg wait: calculated</text></svg>',
+ usb:'<svg viewBox="0 0 220 110" fill="none" stroke="#c3dc57" stroke-width="2"><rect x="30" y="35" width="120" height="40"/><rect x="150" y="45" width="40" height="20"/><path d="M60 35v40M100 35v40" stroke-dasharray="4 3"/><text x="36" y="60" fill="#c3dc57" stroke="none" font-size="10" font-family="monospace">sdb1</text><text x="106" y="60" fill="#c3dc57" stroke="none" font-size="10" font-family="monospace">ext4</text><text x="30" y="98" fill="#e6edc8" stroke="none" font-size="10" font-family="monospace">$ mount /dev/sdb1 /mnt</text></svg>',
+ dk:'<svg viewBox="0 0 220 110" fill="none" stroke="#c3dc57" stroke-width="2"><rect x="15" y="15" width="190" height="80"/><rect x="28" y="30" width="70" height="50" fill="#2c3716"/><rect x="118" y="30" width="75" height="50" fill="#2c3716"/><text x="38" y="52" fill="#c3dc57" stroke="none" font-size="11" font-family="monospace">docker</text><text x="132" y="52" fill="#c3dc57" stroke="none" font-size="11" font-family="monospace">nginx</text><text x="128" y="68" fill="#e6edc8" stroke="none" font-size="9" font-family="monospace">:80 → page</text></svg>'
+};
+var labs=[
+ {id:"Hx4TkcTtEik",k:"bo",c:"Software Security",t:"Buffer Overflow Lab",d:"How unsafe memory operations can cause a buffer overflow, shown in a controlled lab."},
+ {id:"Sk1ZzyJXNbA",k:"cpu",c:"Operating Systems",t:"CPU Scheduling in Python",d:"A Python implementation that calculates and displays scheduling results from process data."},
+ {id:"IQqzrfkhY0A",k:"usb",c:"Linux Administration",t:"Linux USB Storage Management",d:"Partitioning, formatting, mounting and inspecting a USB drive with ext4 and command-line tools."},
+ {id:"krX3l2cu8_Q",k:"dk",c:"Containerization",t:"Docker Container + Nginx",d:"Installing Docker, creating containers and deploying a custom webpage through Nginx."}
+];
+labs.forEach(function(l,i){
+  var a=document.createElement("a");a.className="lab";a.href="https://youtu.be/"+l.id;a.target="_blank";a.rel="noopener";
+  a.innerHTML='<div class="crt">'+svgs[l.k]+'<span class="play">▶ REC 0'+(i+1)+"</span></div><div class=\"body\"><small>"+l.c+"</small><h3>"+l.t+"</h3><p>"+l.d+"</p></div>";
+  $("#labgrid").appendChild(a);
+});
+
+/* ---------- skills ---------- */
+var S={
+ Networking:["TCP/IP","DNS","HTTP","ARP","ICMP","Packet analysis","Network troubleshooting","Secure network design"],
+ Programming:["Python","Java","C","MATLAB","TypeScript (fundamentals)"],
+ Security:["Threat modeling","Zero Trust","Least privilege","Vulnerability assessment","Intrusion detection","RBAC","Applied cryptography","Security monitoring","Incident response"],
+ Tools:["Wireshark","Kali Linux","Aircrack-ng","Linux","Windows","SIEM","Git/GitHub","VMware","VirtualBox","Docker","Nginx","VS Code"],
+ Professional:["Technical documentation","Written & oral communication","Team collaboration","Analytical problem-solving"]
+};
+var cat="All",skEl=$("#skillgrid"),tabs=$("#tabs");
+["All"].concat(Object.keys(S)).forEach(function(c){
+  var b=document.createElement("button");b.type="button";b.className="tab";b.textContent=c;b.setAttribute("aria-pressed",c==="All");
+  b.onclick=function(){cat=c;Array.prototype.forEach.call(tabs.children,function(t){t.setAttribute("aria-pressed",t===b)});paint()};
+  tabs.appendChild(b);
+});
+function paint(){
+  skEl.innerHTML="";
+  Object.keys(S).forEach(function(k){S[k].forEach(function(n){
+    var s=document.createElement("span");s.className="sk"+(cat!=="All"&&cat!==k?" dim2":"");s.textContent=n;skEl.appendChild(s);
+  })});
+}
+paint();
+$("#scan").onclick=function(){
+  var all=skEl.querySelectorAll(".sk");
+  all.forEach(function(s){s.classList.remove("lit")});
+  all.forEach(function(s,i){setTimeout(function(){s.classList.add("lit");setTimeout(function(){s.classList.remove("lit")},700)},reduce?0:i*55)});
+  toast("Scan complete: "+all.length+" skills open");
+};
+
+/* ---------- cipher ---------- */
+var plain="LET'S TALK SECURITY",key=9;
+function shiftTxt(t,n){return t.replace(/[A-Z]/g,function(c){return String.fromCharCode((c.charCodeAt(0)-65+n+26)%26+65)})}
+var enc=shiftTxt(plain,key);
+function cdraw(){
+  var v=+$("#shift").value,o=shiftTxt(enc,-v);
+  $("#cout").textContent=o;$("#shiftlbl").textContent="shift "+v;
+  var ok=o===plain;$("#cipher").classList.toggle("unlocked",ok);
+  if(ok&&!cdraw.won){cdraw.won=1;toast("Access granted. Say hello below.")}
+}
+$("#shift").addEventListener("input",cdraw);cdraw();
+$("#copy").onclick=function(){
+  var t="zaynababdulquddos@gmail.com";
+  try{navigator.clipboard.writeText(t).then(function(){toast("Email copied")},function(){toast("Copy blocked. Select the address to copy.")})}catch(e){toast("Copy blocked. Select the address to copy.")}
+};
+
+/* konami */
+var kc=["ArrowUp","ArrowUp","ArrowDown","ArrowDown","ArrowLeft","ArrowRight","ArrowLeft","ArrowRight","b","a"],kp=0;
+addEventListener("keydown",function(e){
+  if(e.target&&e.target.tagName==="INPUT")return;
+  kp=(e.key===kc[kp])?kp+1:(e.key===kc[0]?1:0);
+  if(kp===kc.length){kp=0;document.documentElement.style.filter="hue-rotate(60deg) saturate(1.3)";toast("Cheat mode: palette shifted. Reload to reset.");run("sudo hire zaynab")}
+});
+})();
+</script>
+</body>
+</html>
